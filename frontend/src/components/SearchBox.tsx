@@ -94,7 +94,7 @@ function SearchBox({
         placeholder="Search parks"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        className="border border-gray-300 rounded-md p-2 w-60"
+        className="border border-gray-300 rounded-md p-2 w-44 md:w-60"
       />
 
       {suggestions.length > 0 && (

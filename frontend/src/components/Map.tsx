@@ -99,11 +99,11 @@ const Map = () => {
         </div>
 
         <div className="p-4 border-b border-gray-200 bg-gray-50 flex flex-wrap items-center justify-between gap-4">
-          <div className="flex items-center gap-10">
+          <div className="flex items-center gap-3 md:gap-10">
             <div className="flex items-center">
               <label
                 htmlFor="radius"
-                className="text-sm font-medium text-gray-700 mr-3"
+                className="text-sm font-medium text-gray-700 mr-2 md:mr-3"
               >
                 Search Radius:
               </label>
