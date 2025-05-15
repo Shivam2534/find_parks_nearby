@@ -98,7 +98,7 @@ function SearchBox({
       />
 
       {suggestions.length > 0 && (
-        <ul className=" absolute z-10 bg-white border border-gray-300 rounded-md shadow-lg w-60">
+        <ul className=" absolute z-10 bg-white border border-gray-300 rounded-md shadow-lg w-44 md:w-60">
           {suggestions.map((park) => (
             <li
               key={park.id}
