@@ -87,8 +87,8 @@ const Map = () => {
   }, [calculateRoute, nearbyParks]);
 
   return (
-    <div className="w-full max-w-6xl mx-auto px-4 py-6">
-      <div className="bg-white rounded-xl shadow-lg overflow-hidden">
+    <div className="w-full md:px-0 py-0">
+      <div className="bg-white  shadow-lg overflow-hidden">
         <div className="p-4 bg-gradient-to-r from-emerald-500 to-teal-600 text-white">
           <h2 className="text-xl font-semibold flex items-center">
             <MapPin className="mr-2" size={20} />
@@ -166,7 +166,7 @@ const Map = () => {
               <GoogleMap
                 mapContainerClassName="w-full h-[600px]"
                 center={userLocation || { lat: 40.7128, lng: -73.935242 }}
-                zoom={13}
+                zoom={14}
                 onLoad={setMap}
                 options={{
                   streetViewControl: false,
