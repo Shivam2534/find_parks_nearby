@@ -5,6 +5,13 @@ export interface Park {
     lat: number;
     lng: number;
   };
+  description: string;
+  openingHours: string;
+  amenities: string[];
+  entryFee: string;
+  imageUrl: string;
+  rating: number;
+  reviewsCount: number;
 }
 
 export interface UserLocation {
@@ -12,4 +19,4 @@ export interface UserLocation {
   lng: number;
 }
 
-export type RadiusOption = 1 | 2 | 5 | 10; // in kilometers 
+export type RadiusOption = 1 | 2 | 5 | 10; // in kilometers

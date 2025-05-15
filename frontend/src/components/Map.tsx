@@ -10,6 +10,7 @@ import { findParksInRadius, findNearestPark } from "../utils/geoUtils";
 import { SAMPLE_PARKS } from "../utils/parkData";
 import { MapPin, Navigation, Loader2 } from "lucide-react";
 import type { Park } from "../types";
+import SearchBox from "./SearchBox";
 
 const Map = () => {
   const [userLocation, setUserLocation] = useState<UserLocation | null>(null);
@@ -98,27 +99,39 @@ const Map = () => {
         </div>
 
         <div className="p-4 border-b border-gray-200 bg-gray-50 flex flex-wrap items-center justify-between gap-4">
-          <div className="flex items-center">
-            <label
-              htmlFor="radius"
-              className="text-sm font-medium text-gray-700 mr-3"
-            >
-              Search Radius:
-            </label>
-            <select
-              id="radius"
-              value={selectedRadius}
-              onChange={(e) =>
-                setSelectedRadius(Number(e.target.value) as RadiusOption)
-              }
-              className="block w-24 rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 text-sm text-gray-700  bg-white border px-3 py-2"
-            >
-              <option value={1}>1 km</option>
-              <option value={2}>2 km</option>
-              <option value={5}>5 km</option>
-              <option value={10}>10 km</option>
-              <option value={1500}>1500 km</option>
-            </select>
+          <div className="flex items-center gap-10">
+            <div className="flex items-center">
+              <label
+                htmlFor="radius"
+                className="text-sm font-medium text-gray-700 mr-3"
+              >
+                Search Radius:
+              </label>
+              <select
+                id="radius"
+                value={selectedRadius}
+                onChange={(e) =>
+                  setSelectedRadius(Number(e.target.value) as RadiusOption)
+                }
+                className="block w-24 rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 text-sm text-gray-700  bg-white border px-3 py-2"
+              >
+                <option value={1}>1 km</option>
+                <option value={2}>2 km</option>
+                <option value={5}>5 km</option>
+                <option value={10}>10 km</option>
+                <option value={1500}>1500 km</option>
+              </select>
+            </div>
+
+            {userLocation && (
+              <div>
+                <SearchBox
+                  userLocation={userLocation}
+                  map={map}
+                  radius={selectedRadius}
+                />
+              </div>
+            )}
           </div>
 
           <div className="flex items-center text-sm">
@@ -159,70 +172,75 @@ const Map = () => {
             </div>
           </div>
         ) : (
-          <div className="relative">
-            <LoadScript
-              googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY || ""}
-            >
-              <GoogleMap
-                mapContainerClassName="w-full h-[600px]"
-                center={userLocation || { lat: 40.7128, lng: -73.935242 }}
-                zoom={14}
-                onLoad={setMap}
-                options={{
-                  streetViewControl: false,
-                  mapTypeControl: false,
-                  fullscreenControl: true,
-                }}
+          <>
+            <div className="relative">
+              <LoadScript
+                googleMapsApiKey={
+                  import.meta.env.VITE_GOOGLE_MAPS_API_KEY || ""
+                }
               >
-                {/* User location marker */}
-                {userLocation && (
-                  <Marker
-                    position={userLocation}
-                    icon={{
-                      url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png",
-                    }}
-                  />
-                )}
-
-                {/* Park markers */}
-                {nearbyParks.map((park) => (
-                  <Marker
-                    key={park.id}
-                    position={park.location}
-                    title={park.name}
-                  />
-                ))}
-
-                {/* Directions to nearest park */}
-                {directions && <DirectionsRenderer directions={directions} />}
-              </GoogleMap>
-            </LoadScript>
-
-            {/* Map overlay with park info */}
-            <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm p-3 rounded-lg shadow-lg max-w-xs border border-gray-200 text-sm">
-              <div className="font-medium text-gray-900 mb-1 flex items-center">
-                <Navigation className="w-4 h-4 mr-1 text-teal-600" />
-                Nearby Parks
-              </div>
-              {nearbyParks.length > 0 ? (
-                <div className="text-gray-600 text-xs">
-                  Found {nearbyParks.length} parks within {selectedRadius}km
-                  {nearbyParks.length > 0 && (
-                    <div className="mt-2 pt-2 border-t border-gray-200">
-                      <div className="font-medium">Closest park:</div>
-                      <div>
-                        {findNearestPark(nearbyParks, userLocation!)?.name}
-                      </div>
-                    </div>
+                <GoogleMap
+                  mapContainerClassName="w-full h-[600px]"
+                  center={userLocation || { lat: 40.7128, lng: -73.935242 }}
+                  zoom={14}
+                  onLoad={setMap}
+                  options={{
+                    streetViewControl: false,
+                    mapTypeControl: false,
+                    fullscreenControl: true,
+                  }}
+                >
+                  {/* User location marker */}
+                  {userLocation && (
+                    <Marker
+                      position={userLocation}
+                      icon={{
+                        url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png",
+                      }}
+                    />
                   )}
+
+                  {/* Park markers */}
+                  {nearbyParks.map((park) => (
+                    <Marker
+                      key={park.id}
+                      position={park.location}
+                      title={park.name}
+                      
+                    />
+                  ))}
+
+                  {/* Directions to nearest park */}
+                  {directions && <DirectionsRenderer directions={directions} />}
+                </GoogleMap>
+              </LoadScript>
+
+              {/* Map overlay with park info */}
+              <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm p-3 rounded-lg shadow-lg max-w-xs border border-gray-200 text-sm">
+                <div className="font-medium text-gray-900 mb-1 flex items-center">
+                  <Navigation className="w-4 h-4 mr-1 text-teal-600" />
+                  Nearby Parks
                 </div>
-              ) : (
-                <div className="text-gray-500 text-xs">
-                  No parks found in this area
-                </div>
-              )}
+                {nearbyParks.length > 0 ? (
+                  <div className="text-gray-600 text-xs">
+                    Found {nearbyParks.length} parks within {selectedRadius}km
+                    {nearbyParks.length > 0 && (
+                      <div className="mt-2 pt-2 border-t border-gray-200">
+                        <div className="font-medium">Closest park:</div>
+                        <div>
+                          {findNearestPark(nearbyParks, userLocation!)?.name}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <div className="text-gray-500 text-xs">
+                    No parks found in this area
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
+          </>
         )}
 
         <div className="p-3 bg-gray-50 border-t border-gray-200 text-xs text-gray-500 text-center">
