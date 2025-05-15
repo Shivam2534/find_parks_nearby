@@ -1,0 +1,27 @@
+# Tech Hub
+
+Welcome to the Tech Hub repository!
+
+This project is a web application that helps users discover nearby parks based on their current location. Users can filter parks within a specific radius (2km, 5km, or 10km) and search for parks by name. If the searched park falls within the selected radius, it will appear in the suggestions. Upon selecting a park, users can view detailed information about it.
+
+## Tech stack
+- React.js – Frontend framework
+- Google Maps API – For location and map rendering
+
+## Live Demo
+- live link - https://find-parks-nearby-5nyz.vercel.app/
+
+## Locate parks near your current location
+- Filter parks by radius (2km, 5km, 10km)
+
+- Search for parks by name within the selected radius
+
+- View detailed information about selected park
+
+## Installation
+
+- git clone -> https://github.com/Shivam2534/find_parks_nearby.git
+- change dir -> cd frontend
+- install dependecny -> pnpm install
+- to run -> npm run dev
+
